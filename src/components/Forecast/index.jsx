@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { IndexContext } from "../../views/Forecasts";
 
-function Index({ data }) {
+function ForecastsList({ data }) {
   const indexContext = useContext(IndexContext);
   return (
     <>
@@ -22,7 +22,7 @@ function Index({ data }) {
     </>
   );
 }
-export default React.memo(Index);
+export default React.memo(ForecastsList);
 
 // ----------------- Styles section ---------------------
 

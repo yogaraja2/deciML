@@ -12,33 +12,20 @@ function ForecastsCard({ data }) {
   return (
     <CardWrapper>
       <HeaderNav>
-        <Arrow
-          onClick={() =>
-            indexContext.Dispatch({
-              type: "prev",
-            })
-          }
-        >
+        <Arrow onClick={() => indexContext.Dispatch({ type: "prev" })}>
           <img src={leftArr} alt="" />
-          &nbsp;
-          <span>Prev</span>
+          &nbsp;<span>Prev</span>
         </Arrow>
-        <Title>{currentData.title}</Title>
-        <Arrow
-          onClick={() =>
-            indexContext.Dispatch({
-              type: "next",
-            })
-          }
-        >
+        <Title>{currentData?.title}</Title>
+        <Arrow onClick={() => indexContext.Dispatch({ type: "next" })}>
           <span>Next</span>&nbsp;
           <img src={rightArr} alt="" />
         </Arrow>
       </HeaderNav>
       <Body>
         <QuestionWrap>
-          <Question>{currentData.content}</Question>
-          <DueDate>Due Date: {currentData.dueDate}</DueDate>
+          <Question>{currentData?.content}</Question>
+          <DueDate>Due Date: {currentData?.dueDate}</DueDate>
         </QuestionWrap>
         <MapWrap>
           <Map
@@ -49,10 +36,10 @@ function ForecastsCard({ data }) {
         </MapWrap>
         <ResultWrap>
           <Result>
-            Number of forecasts made : <span>{currentData.forecastsMade}</span>
+            Number of forecasts made : <span>{currentData?.forecastsMade}</span>
           </Result>
           <Result>
-            Current forecast: <span>{currentData.probablity}</span>
+            Current forecast: <span>{currentData?.probablity}</span>
           </Result>
         </ResultWrap>
       </Body>
@@ -98,6 +85,7 @@ const Arrow = styled.div`
   }
   &:hover {
     cursor: pointer;
+    color: orange;
   }
 `;
 
