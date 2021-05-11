@@ -1,29 +1,44 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import leftArr from "../../assets/images/leftarr.svg";
 import rightArr from "../../assets/images/rightarr.svg";
+import { IndexContext } from "../../views/Forecasts";
 
 function ForecastsCard({ data }) {
+  const indexContext = useContext(IndexContext);
+  const currentData = data.filter(
+    (item, index) => index === indexContext.index
+  )[0];
   return (
     <CardWrapper>
       <HeaderNav>
-        <Arrow>
+        <Arrow
+          onClick={() =>
+            indexContext.Dispatch({
+              type: "prev",
+            })
+          }
+        >
           <img src={leftArr} alt="" />
           &nbsp;
           <span>Prev</span>
         </Arrow>
-        <Title>{data.title}</Title>
-        <Arrow>
+        <Title>{currentData.title}</Title>
+        <Arrow
+          onClick={() =>
+            indexContext.Dispatch({
+              type: "next",
+            })
+          }
+        >
           <span>Next</span>&nbsp;
           <img src={rightArr} alt="" />
         </Arrow>
       </HeaderNav>
       <Body>
         <QuestionWrap>
-          <Question>
-            {data.content}
-          </Question>
-          <DueDate>Due Date: {data.dueDate}</DueDate>
+          <Question>{currentData.content}</Question>
+          <DueDate>Due Date: {currentData.dueDate}</DueDate>
         </QuestionWrap>
         <MapWrap>
           <Map
@@ -34,10 +49,10 @@ function ForecastsCard({ data }) {
         </MapWrap>
         <ResultWrap>
           <Result>
-            Number of forecasts made : <span>23</span>
+            Number of forecasts made : <span>{currentData.forecastsMade}</span>
           </Result>
           <Result>
-            Current forecast: <span>80% PROBABLITY, Yes</span>
+            Current forecast: <span>{currentData.probablity}</span>
           </Result>
         </ResultWrap>
       </Body>
@@ -45,7 +60,7 @@ function ForecastsCard({ data }) {
   );
 }
 
-export default ForecastsCard;
+export default React.memo(ForecastsCard);
 
 // ----------------- Styles section ---------------------
 
@@ -80,6 +95,9 @@ const Arrow = styled.div`
   }
   span {
     font-size: 1rem;
+  }
+  &:hover {
+    cursor: pointer;
   }
 `;
 

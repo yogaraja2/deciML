@@ -1,35 +1,46 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import styled from "styled-components";
 import Forecasts from "../../components/Forecast";
 import ForecastCard from "../../components/ForecastCard";
 import FCData from "./list";
 
-function ForecastsMain() {
+// Creating context
+export const IndexContext = React.createContext();
 
-  const [fcDetail, setFcDetail] = useState({
-    title: "US GDP",
-    content: "What will US GDP growth be in 2021?",
-    dueDate: new Date().toLocaleDateString(),
-  });
-  
-  const getItem = (item) => {
-    setFcDetail(item);
-  };
+// Initialize default state and reducer function
+const initialState = 0;
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "prev":
+      return state - 1;
+    case "next":
+      return state + 1;
+    case "common":
+      return (state = action.payload);
+    default:
+      return state;
+  }
+};
+
+function ForecastsMain() {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <MainContainer>
-      <ListSection>
-        <Heading>Current Forecasts :</Heading>
-        <ForecastsList>
-          <Forecasts data={FCData} getItem={getItem} />
-        </ForecastsList>
-      </ListSection>
-      <ListDetailSection>
-        <Heading mapHead>Current Forecasts :</Heading>
-        <ForecastsDetail>
-          <ForecastCard data={fcDetail} />
-        </ForecastsDetail>
-      </ListDetailSection>
+      <IndexContext.Provider value={{ index: state, Dispatch: dispatch }}>
+        <ListSection>
+          <Heading>Current Forecasts :</Heading>
+          <ForecastsList>
+            <Forecasts data={FCData} />
+          </ForecastsList>
+        </ListSection>
+
+        <ListDetailSection>
+          <ForecastsDetail>
+            <ForecastCard data={FCData} />
+          </ForecastsDetail>
+        </ListDetailSection>
+      </IndexContext.Provider>
     </MainContainer>
   );
 }
@@ -51,6 +62,7 @@ const ListSection = styled.div`
   height: 100%;
 `;
 const ListDetailSection = styled.div`
+  margin-top: 55px;
   width: 60%;
   height: 100%;
 `;
@@ -83,5 +95,4 @@ const ForecastsDetail = styled.div`
 
 const Heading = styled.h2`
   color: #5e5f5f;
-  margin-left: ${(props) => (props.mapHead ? "35px" : "0px")};
 `;

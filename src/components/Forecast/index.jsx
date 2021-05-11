@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { IndexContext } from "../../views/Forecasts";
 
-function Index({ data, getItem }) {
-  const [selectedItem, setSelectedItem] = useState(0);
+function Index({ data }) {
+  const indexContext = useContext(IndexContext);
   return (
     <>
       {data.map((item, index) => (
         <ForecastsWrapper
           key={index}
           onClick={() => {
-            getItem(item);
-            setSelectedItem(index);
+            indexContext.Dispatch({ type: "common", payload: index });
           }}
         >
-          <Title isSelected={selectedItem === index && "true"}>
+          <Title isSelected={indexContext.index === index && "true"}>
             {item.title}
           </Title>
           <Question>{item.content}</Question>
@@ -22,7 +22,7 @@ function Index({ data, getItem }) {
     </>
   );
 }
-export default Index;
+export default React.memo(Index);
 
 // ----------------- Styles section ---------------------
 
@@ -35,7 +35,9 @@ const Title = styled.div`
   line-height: 30px;
   margin-bottom: 2px;
 
-  ${({ isSelected }) => isSelected &&`
+  ${({ isSelected }) =>
+    isSelected &&
+    `
     background: #146596;
     color: #ffffff;
   `};
