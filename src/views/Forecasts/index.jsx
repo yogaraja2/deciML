@@ -5,15 +5,17 @@ import ForecastCard from "../../components/ForecastCard";
 import FCData from "./list";
 
 function ForecastsMain() {
+
   const [fcDetail, setFcDetail] = useState({
     title: "US GDP",
     content: "What will US GDP growth be in 2021?",
     dueDate: new Date().toLocaleDateString(),
   });
+  
   const getItem = (item) => {
     setFcDetail(item);
   };
-  //   console.log(fcDetail);
+
   return (
     <MainContainer>
       <ListSection>
@@ -56,6 +58,7 @@ const ListDetailSection = styled.div`
 const ForecastsList = styled.div`
   height: 100%;
   overflow-y: scroll;
+
   ::-webkit-scrollbar {
     width: 5px;
   }
@@ -66,7 +69,6 @@ const ForecastsList = styled.div`
   }
 
   ::-webkit-scrollbar-thumb {
-    /* background: linear-gradient(180.16deg, #2786c8 0%, #ab497c 99.74%); */
     background: #2786c8;
     border-radius: 10px;
   }

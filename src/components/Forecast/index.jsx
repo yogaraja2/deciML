@@ -1,19 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-function index({ data, getItem }) {
+function Index({ data, getItem }) {
+  const [selectedItem, setSelectedItem] = useState(0);
   return (
     <>
       {data.map((item, index) => (
-        <ForecastsWrapper key={index} onClick={() => getItem(item)}>
-          <Title>{item.title}</Title>
+        <ForecastsWrapper
+          key={index}
+          onClick={() => {
+            getItem(item);
+            setSelectedItem(index);
+          }}
+        >
+          <Title isSelected={selectedItem === index && "true"}>
+            {item.title}
+          </Title>
           <Question>{item.content}</Question>
         </ForecastsWrapper>
       ))}
     </>
   );
 }
-export default index;
+export default Index;
 
 // ----------------- Styles section ---------------------
 
@@ -25,6 +34,11 @@ const Title = styled.div`
   text-align: center;
   line-height: 30px;
   margin-bottom: 2px;
+
+  ${({ isSelected }) => isSelected &&`
+    background: #146596;
+    color: #ffffff;
+  `};
 `;
 
 const Question = styled.div`
